@@ -1,8 +1,8 @@
-import type { AlgorithmExecutionResult } from '../types/benchmark'
+import type { AlgorithmExecutionResult } from "../types/benchmark";
 
 interface OperationCounter {
-  operations: number
-  totalChars: number
+  operations: number;
+  totalChars: number;
 }
 
 /**
@@ -14,18 +14,24 @@ function matchCharactersRecursive(
   pattern: string,
   shiftIndex: number,
   charIndex: number,
-  counter: OperationCounter
+  counter: OperationCounter,
 ): boolean {
   if (charIndex === pattern.length) {
-    return true
+    return true;
   }
 
-  counter.operations++
+  counter.operations++;
   if (text[shiftIndex + charIndex] !== pattern[charIndex]) {
-    return false
+    return false;
   }
 
-  return matchCharactersRecursive(text, pattern, shiftIndex, charIndex + 1, counter)
+  return matchCharactersRecursive(
+    text,
+    pattern,
+    shiftIndex,
+    charIndex + 1,
+    counter,
+  );
 }
 
 /**
@@ -37,14 +43,25 @@ function scanShiftsRecursive(
   pattern: string,
   shiftIndex: number,
   maxShift: number,
-  counter: OperationCounter
+  counter: OperationCounter,
 ): number {
   if (shiftIndex > maxShift) {
-    return 0
+    return 0;
   }
 
-  const foundHere = matchCharactersRecursive(text, pattern, shiftIndex, 0, counter) ? 1 : 0
-  return foundHere + scanShiftsRecursive(text, pattern, shiftIndex + 1, maxShift, counter)
+  const foundHere = matchCharactersRecursive(
+    text,
+    pattern,
+    shiftIndex,
+    0,
+    counter,
+  )
+    ? 1
+    : 0;
+  return (
+    foundHere +
+    scanShiftsRecursive(text, pattern, shiftIndex + 1, maxShift, counter)
+  );
 }
 
 /**
@@ -57,31 +74,43 @@ function countRangeDivideAndConquer(
   pattern: string,
   left: number,
   right: number,
-  counter: OperationCounter
+  counter: OperationCounter,
 ): number {
   if (left > right) {
-    return 0
+    return 0;
   }
 
   // Kasus dasar: satu entri teks tunggal
   if (left === right) {
-    const text = texts[left] ?? ''
-    counter.totalChars += text.length
-    const maxShift = text.length - pattern.length
+    const text = texts[left] ?? "";
+    counter.totalChars += text.length;
+    const maxShift = text.length - pattern.length;
 
     if (maxShift < 0) {
-      return 0
+      return 0;
     }
 
-    return scanShiftsRecursive(text, pattern, 0, maxShift, counter)
+    return scanShiftsRecursive(text, pattern, 0, maxShift, counter);
   }
 
   // Pembagian Divide and Conquer menjadi dua sub-masalah seimbang
-  const mid = Math.floor((left + right) / 2)
-  const leftCount = countRangeDivideAndConquer(texts, pattern, left, mid, counter)
-  const rightCount = countRangeDivideAndConquer(texts, pattern, mid + 1, right, counter)
+  const mid = Math.floor((left + right) / 2);
+  const leftCount = countRangeDivideAndConquer(
+    texts,
+    pattern,
+    left,
+    mid,
+    counter,
+  );
+  const rightCount = countRangeDivideAndConquer(
+    texts,
+    pattern,
+    mid + 1,
+    right,
+    counter,
+  );
 
-  return leftCount + rightCount
+  return leftCount + rightCount;
 }
 
 /**
@@ -90,22 +119,28 @@ function countRangeDivideAndConquer(
  */
 export function naiveStringMatchRecursive(
   texts: string[],
-  pattern: string
+  pattern: string,
 ): AlgorithmExecutionResult {
   if (pattern.length === 0 || texts.length === 0) {
-    return { frequency: 0, operations: 0, totalChars: 0 }
+    return { frequency: 0, operations: 0, totalChars: 0 };
   }
 
   const counter: OperationCounter = {
     operations: 0,
-    totalChars: 0
-  }
+    totalChars: 0,
+  };
 
-  const frequency = countRangeDivideAndConquer(texts, pattern, 0, texts.length - 1, counter)
+  const frequency = countRangeDivideAndConquer(
+    texts,
+    pattern,
+    0,
+    texts.length - 1,
+    counter,
+  );
 
   return {
     frequency,
     operations: counter.operations,
-    totalChars: counter.totalChars
-  }
+    totalChars: counter.totalChars,
+  };
 }

@@ -1,79 +1,84 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useTheme } from '~/composables/useTheme'
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useTheme } from "~/composables/useTheme";
 
-type NavSectionId = 'home' | 'simulasi' | 'hasil' | 'algoritma'
+type NavSectionId = "home" | "simulasi" | "hasil" | "algoritma";
 
 interface NavItem {
-  id: NavSectionId
-  label: string
-  to: string
+  id: NavSectionId;
+  label: string;
+  to: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'home', label: 'Beranda', to: '#home' },
-  { id: 'simulasi', label: 'Simulasi', to: '#simulasi' },
-  { id: 'hasil', label: 'Hasil & Grafik', to: '#hasil' },
-  { id: 'algoritma', label: 'Algoritma', to: '#algoritma' }
-]
+  { id: "home", label: "Beranda", to: "#home" },
+  { id: "simulasi", label: "Simulasi", to: "#simulasi" },
+  { id: "hasil", label: "Hasil & Grafik", to: "#hasil" },
+  { id: "algoritma", label: "Algoritma", to: "#algoritma" },
+];
 
 const props = defineProps<{
-  isLoadingDataset: boolean
-  isDatasetReady: boolean
-}>()
+  isLoadingDataset: boolean;
+  isDatasetReady: boolean;
+}>();
 
-const { isDark, toggleTheme } = useTheme()
-const activeSection = ref<NavSectionId>('home')
+const { isDark, toggleTheme } = useTheme();
+const activeSection = ref<NavSectionId>("home");
 
 const statusTitle = computed(() => {
-  if (props.isLoadingDataset) return 'Memuat Dataset...'
-  if (props.isDatasetReady) return 'Dataset Siap'
-  return 'Dataset Tidak Siap / Tidak Terdeteksi'
-})
+  if (props.isLoadingDataset) return "Memuat Dataset...";
+  if (props.isDatasetReady) return "Dataset Siap";
+  return "Dataset Tidak Siap / Tidak Terdeteksi";
+});
 
 function navigateToSection(id: NavSectionId): void {
-  activeSection.value = id
-  if (typeof document !== 'undefined') {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  activeSection.value = id;
+  if (typeof document !== "undefined") {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }
 }
 
 function updateActiveSectionOnScroll(): void {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return
+  if (typeof window === "undefined" || typeof document === "undefined") return;
 
   // Jika sudah di dasar halaman, aktifkan seksi terakhir
   const reachedBottom =
-    window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 24
+    window.innerHeight + window.scrollY >=
+    document.documentElement.scrollHeight - 24;
   if (reachedBottom) {
-    activeSection.value = 'algoritma'
-    return
+    activeSection.value = "algoritma";
+    return;
   }
 
-  const scrollOffset = window.scrollY + 120
-  let current: NavSectionId = 'home'
+  const scrollOffset = window.scrollY + 120;
+  let current: NavSectionId = "home";
 
   for (const item of NAV_ITEMS) {
-    const el = document.getElementById(item.id)
+    const el = document.getElementById(item.id);
     if (el && el.offsetTop <= scrollOffset) {
-      current = item.id
+      current = item.id;
     }
   }
 
-  activeSection.value = current
+  activeSection.value = current;
 }
 
 onMounted(() => {
-  updateActiveSectionOnScroll()
-  window.addEventListener('scroll', updateActiveSectionOnScroll, { passive: true })
-})
+  updateActiveSectionOnScroll();
+  window.addEventListener("scroll", updateActiveSectionOnScroll, {
+    passive: true,
+  });
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', updateActiveSectionOnScroll)
-})
+  window.removeEventListener("scroll", updateActiveSectionOnScroll);
+});
 </script>
 
 <template>
-  <header class="sticky top-0 h-16 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 z-50 px-4 md:px-8 flex items-center justify-between transition-colors">
+  <header
+    class="sticky top-0 h-16 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 z-50 px-4 md:px-8 flex items-center justify-between transition-colors"
+  >
     <div class="flex items-center gap-6 md:gap-8">
       <NuxtLink
         to="#home"
@@ -91,7 +96,11 @@ onBeforeUnmount(() => {
                 : 'bg-red-700 dark:bg-red-500'
           "
         ></span>
-        <h1 class="text-sm font-medium tracking-tight text-zinc-900 dark:text-zinc-50">projectBM</h1>
+        <h1
+          class="text-sm font-medium tracking-tight text-zinc-900 dark:text-zinc-50"
+        >
+          projectBM
+        </h1>
       </NuxtLink>
 
       <nav class="hidden md:flex items-center gap-6 text-sm">
@@ -130,7 +139,10 @@ onBeforeUnmount(() => {
           stroke-width="1.5"
         >
           <circle cx="12" cy="12" r="4" />
-          <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41" />
+          <path
+            stroke-linecap="round"
+            d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32 1.41-1.41"
+          />
         </svg>
         <!-- Moon Icon (muncul saat Light Mode aktif) -->
         <svg
@@ -141,7 +153,11 @@ onBeforeUnmount(() => {
           stroke="currentColor"
           stroke-width="1.5"
         >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+          />
         </svg>
       </button>
     </div>

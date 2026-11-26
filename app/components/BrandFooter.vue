@@ -6,8 +6,12 @@
   <footer
     class="relative w-full overflow-hidden border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 select-none pt-6 md:pt-10 flex items-center justify-center transition-colors"
   >
-    <div class="w-full overflow-hidden flex justify-center items-center pointer-events-none px-4">
-      <h2 class="text-center font-semibold tracking-tight leading-none whitespace-nowrap text-7xl md:text-9xl lg:text-12xl select-none text-zinc-900 dark:text-zinc-50 pt-4 mb-3 md:mb-5">
+    <div
+      class="w-full overflow-hidden flex justify-center items-center pointer-events-none px-4"
+    >
+      <h2
+        class="text-center font-semibold tracking-tight leading-none whitespace-nowrap text-7xl md:text-9xl lg:text-12xl select-none text-zinc-900 dark:text-zinc-50 pt-4 mb-3 md:mb-5"
+      >
         projectBM
       </h2>
     </div>
@@ -31,6 +35,10 @@
         </svg>
       </span>
     </span>
-    <img class="w-[4%] h-[0.4%] md:w-[3%] md:h-[0.75%] lg:w-[2%] lg:h-[0.75%] absolute bottom-0 right-0" src="/video/chip-unscreen.gif" alt="cip" />
+    <img
+      class="w-[4%] h-[0.4%] md:w-[3%] md:h-[0.75%] lg:w-[2%] lg:h-[0.75%] absolute bottom-0 right-0"
+      src="/video/chip-unscreen.gif"
+      alt="cip"
+    />
   </NuxtLink>
 </template>

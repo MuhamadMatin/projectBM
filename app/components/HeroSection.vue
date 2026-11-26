@@ -1,17 +1,17 @@
 <script setup lang="ts">
 const props = defineProps<{
-  isLoadingDataset: boolean
-  isDatasetReady: boolean
-  datasetError: string | null
-}>()
+  isLoadingDataset: boolean;
+  isDatasetReady: boolean;
+  datasetError: string | null;
+}>();
 
 const emit = defineEmits<{
-  reloadDataset: []
-}>()
+  reloadDataset: [];
+}>();
 
 function scrollToSection(id: string): void {
-  if (typeof document !== 'undefined') {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  if (typeof document !== "undefined") {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }
 }
 </script>
@@ -22,11 +22,23 @@ function scrollToSection(id: string): void {
     class="relative border-b border-zinc-200 dark:border-zinc-800 px-6 py-16 md:px-8 lg:px-14 lg:py-24 overflow-hidden bg-white dark:bg-zinc-950 transition-colors"
   >
     <!-- Latar Grid Arsitektural Halus (Pure SVG Vector dengan Radial Fade) -->
-    <div class="absolute inset-0 pointer-events-none opacity-40 text-zinc-200 dark:text-zinc-800">
+    <div
+      class="absolute inset-0 pointer-events-none opacity-40 text-zinc-200 dark:text-zinc-800"
+    >
       <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern id="arch-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" stroke-width="1" />
+          <pattern
+            id="arch-grid"
+            width="32"
+            height="32"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 32 0 L 0 0 0 32"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+            />
           </pattern>
           <radialGradient id="arch-grid-fade" cx="75%" cy="40%" r="65%">
             <stop offset="15%" stop-color="#FFFFFF" stop-opacity="1" />
@@ -36,30 +48,49 @@ function scrollToSection(id: string): void {
             <rect width="100%" height="100%" fill="url(#arch-grid-fade)" />
           </mask>
         </defs>
-        <rect width="100%" height="100%" fill="url(#arch-grid)" mask="url(#arch-grid-mask)" />
+        <rect
+          width="100%"
+          height="100%"
+          fill="url(#arch-grid)"
+          mask="url(#arch-grid-mask)"
+        />
       </svg>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10"
+    >
       <div class="flex flex-col items-start text-left lg:col-span-12">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight leading-tight text-zinc-900 dark:text-zinc-50 max-w-4xl">
+        <h1
+          class="text-3xl md:text-4xl lg:text-5xl font-light tracking-tight leading-tight text-zinc-900 dark:text-zinc-50 max-w-4xl"
+        >
           Benchmark Naive String Matching yang bersih dan terukur.
         </h1>
 
-        <p class="text-base text-zinc-600 dark:text-zinc-400 mt-5 max-w-2xl leading-relaxed">
-          Membandingkan efisiensi algoritma iteratif dan rekursif secara langsung di browser hanya Web Worker.
+        <p
+          class="text-base text-zinc-600 dark:text-zinc-400 mt-5 max-w-2xl leading-relaxed"
+        >
+          Membandingkan efisiensi algoritma iteratif dan rekursif secara
+          langsung di browser hanya Web Worker.
         </p>
 
-        <p class="text-zinc-500 dark:text-zinc-400 mt-3 max-w-2xl leading-relaxed">
-          Studi kasus ini mengevaluasi pencocokan pola teks substring (naive exact matching)
-          dengan dataset e-commerce nyata dari Amazon. Pengujian mengisolasi runtime JavaScript
-          ke Web Worker untuk meniadakan latensi thread UI, memvalidasi kecocokan eksak
-          frekuensi, dan memetakan degradasi call stack pada paradigma rekursif.
+        <p
+          class="text-zinc-500 dark:text-zinc-400 mt-3 max-w-2xl leading-relaxed"
+        >
+          Studi kasus ini mengevaluasi pencocokan pola teks substring (naive
+          exact matching) dengan dataset e-commerce nyata dari Amazon. Pengujian
+          mengisolasi runtime JavaScript ke Web Worker untuk meniadakan latensi
+          thread UI, memvalidasi kecocokan eksak frekuensi, dan memetakan
+          degradasi call stack pada paradigma rekursif.
         </p>
 
         <!-- Peringatan Dataset JSON Belum Tersedia -->
         <div
-          v-if="!props.isLoadingDataset && !props.isDatasetReady && props.datasetError"
+          v-if="
+            !props.isLoadingDataset &&
+            !props.isDatasetReady &&
+            props.datasetError
+          "
           class="mt-5 w-full max-w-2xl p-4 bg-red-50 dark:bg-red-950 border border-red-300 dark:border-red-800 rounded text-sm text-red-700 dark:text-red-400 space-y-2"
         >
           <p class="font-medium">Dataset JSON belum tersedia di public/data/</p>
@@ -86,8 +117,18 @@ function scrollToSection(id: string): void {
             @click="scrollToSection('simulasi')"
           >
             <span>Mulai Simulasi</span>
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14m-6-6 6 6-6 6"
+              />
             </svg>
           </NuxtLink>
           <NuxtLink

@@ -1,4 +1,8 @@
-import type { AlgorithmExecutionResult, SampleMatchItem, WorkerInputItem } from '../types/benchmark'
+import type {
+  AlgorithmExecutionResult,
+  SampleMatchItem,
+  WorkerInputItem,
+} from "../types/benchmark";
 
 /**
  * Algoritma Naive String Matching (Iteratif) — O(N * n_avg * m)
@@ -6,42 +10,42 @@ import type { AlgorithmExecutionResult, SampleMatchItem, WorkerInputItem } from 
  */
 export function naiveStringMatchIterative(
   texts: string[],
-  pattern: string
+  pattern: string,
 ): AlgorithmExecutionResult {
-  const patternLength = pattern.length
+  const patternLength = pattern.length;
   if (patternLength === 0 || texts.length === 0) {
-    return { frequency: 0, operations: 0, totalChars: 0 }
+    return { frequency: 0, operations: 0, totalChars: 0 };
   }
 
-  let frequency = 0
-  let operations = 0
-  let totalChars = 0
+  let frequency = 0;
+  let operations = 0;
+  let totalChars = 0;
 
   for (let i = 0; i < texts.length; i++) {
-    const text = texts[i] ?? ''
-    const textLength = text.length
-    totalChars += textLength
+    const text = texts[i] ?? "";
+    const textLength = text.length;
+    totalChars += textLength;
 
-    const maxShift = textLength - patternLength
+    const maxShift = textLength - patternLength;
     if (maxShift < 0) {
-      continue
+      continue;
     }
 
     // Geser posisi awal pencocokan s dari 0 hingga n - m
     for (let s = 0; s <= maxShift; s++) {
-      let j = 0
+      let j = 0;
 
       // Bandingkan karakter secara manual satu per satu
       while (j < patternLength) {
-        operations++
+        operations++;
         if (text[s + j] !== pattern[j]) {
-          break
+          break;
         }
-        j++
+        j++;
       }
 
       if (j === patternLength) {
-        frequency++
+        frequency++;
       }
     }
   }
@@ -49,8 +53,8 @@ export function naiveStringMatchIterative(
   return {
     frequency,
     operations,
-    totalChars
-  }
+    totalChars,
+  };
 }
 
 /**
@@ -62,31 +66,31 @@ export function collectSampleMatches(
   rawItems: WorkerInputItem[],
   normalizedTexts: string[],
   normalizedPattern: string,
-  limit = 10
+  limit = 10,
 ): SampleMatchItem[] {
-  const samples: SampleMatchItem[] = []
-  const patternLength = normalizedPattern.length
+  const samples: SampleMatchItem[] = [];
+  const patternLength = normalizedPattern.length;
 
   if (patternLength === 0 || rawItems.length === 0) {
-    return samples
+    return samples;
   }
 
   for (let i = 0; i < normalizedTexts.length && samples.length < limit; i++) {
-    const text = normalizedTexts[i] ?? ''
-    const rawItem = rawItems[i]
+    const text = normalizedTexts[i] ?? "";
+    const rawItem = rawItems[i];
     if (!rawItem) {
-      continue
+      continue;
     }
 
-    const maxShift = text.length - patternLength
+    const maxShift = text.length - patternLength;
     if (maxShift < 0) {
-      continue
+      continue;
     }
 
     for (let s = 0; s <= maxShift; s++) {
-      let j = 0
+      let j = 0;
       while (j < patternLength && text[s + j] === normalizedPattern[j]) {
-        j++
+        j++;
       }
 
       if (j === patternLength) {
@@ -95,12 +99,12 @@ export function collectSampleMatches(
           text: rawItem.text,
           matchStart: s,
           matchEnd: s + patternLength - 1,
-          categoryLabel: rawItem.categoryLabel
-        })
-        break
+          categoryLabel: rawItem.categoryLabel,
+        });
+        break;
       }
     }
   }
 
-  return samples
+  return samples;
 }
