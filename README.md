@@ -134,7 +134,7 @@ projectAka/
 - Dataset **[Amazon Products Dataset 2023 (Kaggle)](https://www.kaggle.com/datasets/asaniczka/amazon-products-dataset-2023-1-4m-products)** terdiri dari:
   - `amazon_products.csv`
   - `amazon_categories.csv`
-- **Tidak memerlukan backend, database, ataupun file `.env`** karena seluruh aplikasi berjalan 100% di sisi klien (_browser_).
+- **Tidak memerlukan backend, database, ataupun file `.env`** karena seluruh aplikasi berjalan di sisi klien.
 
 ### Instalasi
 
