@@ -28,4 +28,5 @@ Agents.md
 
 # file excel
 public/data
+public/excel
 public/*.csv
